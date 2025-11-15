@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
+// Disable Turbopack by setting the environment variable
+process.env.TURBOPACK = '0';
+
 const nextConfig: NextConfig = {
-  // Disable static export for now to fix routing issues
-  // output: 'export',
-  
   // Enable React Strict Mode
   reactStrictMode: true,
   
@@ -32,6 +32,12 @@ const nextConfig: NextConfig = {
   // Configure rewrites if needed
   async rewrites() {
     return [];
+  },
+  
+  // Disable Turbopack explicitly
+  experimental: {
+    // @ts-ignore - This is a valid experimental flag but not in the types yet
+    turbo: false
   },
 };
 
