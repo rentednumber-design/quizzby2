@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: telegram-quiz-app
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.x
+      - key: NPM_CONFIG_PRODUCTION
+        value: "false"
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        fromDatabase:
+          name: supabase
+          property: connectionString
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        fromDatabase:
+          name: supabase
+          property: anonKey
+      - key: BOT_TOKEN
+        sync: false  # Will be set in Render dashboard
+    plan: free
+    autoDeploy: true
+
+databases:
+  - name: supabase
+    databaseName: telegram_quiz
+    user: postgres
+    plan: free
+    encryption: preferred
+    region: oregon  # Choose a region closest to your users
